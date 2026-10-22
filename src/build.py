@@ -106,9 +106,20 @@ GLYPHS = {
     "spark": '<path d="M12 3l1.8 4.7L18 9l-4.2 1.3L12 15l-1.8-4.7L6 9l4.2-1.3zM18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
 }
 def img_size(path):
-    from PIL import Image
-    with Image.open(os.path.join(HERE, path)) as im:
-        return im.size
+    # Reads width/height from the WebP header so the build needs only the standard library.
+    with open(os.path.join(HERE, path), "rb") as f:
+        d = f.read(30)
+    if d[:4] != b"RIFF" or d[8:12] != b"WEBP":
+        raise ValueError(f"{path} is not a WebP file")
+    kind = d[12:16]
+    if kind == b"VP8X":
+        return 1 + int.from_bytes(d[24:27], "little"), 1 + int.from_bytes(d[27:30], "little")
+    if kind == b"VP8L":
+        b = int.from_bytes(d[21:25], "little")
+        return 1 + (b & 0x3FFF), 1 + ((b >> 14) & 0x3FFF)
+    if kind == b"VP8 ":
+        return int.from_bytes(d[26:28], "little") & 0x3FFF, int.from_bytes(d[28:30], "little") & 0x3FFF
+    raise ValueError(f"{path}: unknown WebP chunk {kind!r}")
 
 def real(src, alt, cls="", caption="", eager=False):
     # Only the brothers' portrait keeps a name caption; other photos stay clean.
