@@ -11,10 +11,12 @@ python3 src/build.py --standalone --staging  # staging build: noindex, robots Di
 
 `--standalone` writes full HTML pages and embeds the live Google map. Without it, `index.html` is built for the Claude Artifact preview.
 
-## Cloudflare Pages
+## Cloudflare
+
+Deployed as a Cloudflare Worker with static assets (`wrangler.jsonc` points it at `dist/`).
 
 - Build command: `python3 src/build.py --standalone --staging`
-- Build output directory: `dist`
+- Deploy command: `npx wrangler deploy`
 - Custom domain: `naauto.davidfonseca.io` (staging)
 
 Drop `--staging` once the site moves to the real domain.
