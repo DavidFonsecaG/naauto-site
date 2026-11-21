@@ -6,7 +6,7 @@ pass --standalone to wrap it like the other pages for real hosting.
 """
 import html, os, sys
 
-RATING = "4.8"  # Google star rating shown across the site; update it when the Google listing changes
+RATING = "4.9"  # Google star rating shown across the site; update it when the Google listing changes
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "dist")
@@ -154,7 +154,7 @@ def header(active):
     links = "".join(f'<a class="nav-link" href="{h}"{" aria-current=\"page\"" if h == active else ""}>{html.escape(t)}</a>' for h, t in NAV)
     mlinks = "".join(f'<li><a href="{h}"{" aria-current=\"page\"" if h == active else ""}>{html.escape(t)}</a></li>' for h, t in NAV)
     return f'''<div class="strip"><div class="wrap">
-  <span class="status"><span class="dot" data-open-dot></span><span data-open-text>Mon–Sat 7am–6pm · Sun 8am–1pm</span></span>
+  <span class="status"><span class="dot" data-open-dot></span><span data-open-text>Mon–Sat 7am–5pm · Sun 8am–1pm</span></span>
   <span class="addr">1701 W Howard St<span class="addr-city">, Evanston, IL 60202</span></span>
 </div></div>
 <header class="site">
@@ -187,7 +187,7 @@ FOOTER = f'''<footer class="site">
       <p>Family-owned auto repair on Howard Street, Evanston.</p>
     </div>
     <div><h2 class="ftitle">Visit</h2><ul><li>1701 W Howard St</li><li>Evanston, IL 60202</li><li><a href="{MAPS}" target="_blank" rel="noopener">Directions</a></li></ul></div>
-    <div><h2 class="ftitle">Hours</h2><ul><li>Mon–Sat 7am–6pm</li><li>Sun 8am–1pm</li><li><a href="{TEL}">{PHONE}</a></li></ul></div>
+    <div><h2 class="ftitle">Hours</h2><ul><li>Mon–Sat 7am–5pm</li><li>Sun 8am–1pm</li><li><a href="{TEL}">{PHONE}</a></li></ul></div>
     <div><h2 class="ftitle">Pages</h2><ul>{"".join(f'<li><a href="{h}">{html.escape(t)}</a></li>' for h, t in NAV)}<li><a href="{INSTA}" target="_blank" rel="noopener">Instagram</a></li></ul></div>
   </div>
   <div class="wrap legal"><span>© <span data-year>2026</span> N&amp;A Auto Repairs Inc.</span><span>Evanston, Illinois</span></div>
@@ -210,7 +210,7 @@ SCHEMA = {
     "address": {"@type": "PostalAddress", "streetAddress": "1701 W Howard St", "addressLocality": "Evanston",
                 "addressRegion": "IL", "postalCode": "60202", "addressCountry": "US"},
     "openingHoursSpecification": [
-        {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "07:00", "closes": "18:00"},
+        {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "07:00", "closes": "17:00"},
         {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "08:00", "closes": "13:00"}],
     "founder": [{"@type": "Person", "name": "Nabeel Attiya"}, {"@type": "Person", "name": "Aqeel Attiya"}],
     "foundingDate": "2020",
@@ -287,15 +287,15 @@ REASONS = f'''<div class="reasons">
 </div>'''
 
 HOURS_TABLE = '''<table class="hours"><caption class="eyebrow">Shop hours</caption><tbody>
-<tr data-day="1"><td>Monday</td><td>7:00 am – 6:00 pm</td></tr>
-<tr data-day="2"><td>Tuesday</td><td>7:00 am – 6:00 pm</td></tr>
-<tr data-day="3"><td>Wednesday</td><td>7:00 am – 6:00 pm</td></tr>
-<tr data-day="4"><td>Thursday</td><td>7:00 am – 6:00 pm</td></tr>
-<tr data-day="5"><td>Friday</td><td>7:00 am – 6:00 pm</td></tr>
-<tr data-day="6"><td>Saturday</td><td>7:00 am – 6:00 pm</td></tr>
+<tr data-day="1"><td>Monday</td><td>7:00 am – 5:00 pm</td></tr>
+<tr data-day="2"><td>Tuesday</td><td>7:00 am – 5:00 pm</td></tr>
+<tr data-day="3"><td>Wednesday</td><td>7:00 am – 5:00 pm</td></tr>
+<tr data-day="4"><td>Thursday</td><td>7:00 am – 5:00 pm</td></tr>
+<tr data-day="5"><td>Friday</td><td>7:00 am – 5:00 pm</td></tr>
+<tr data-day="6"><td>Saturday</td><td>7:00 am – 5:00 pm</td></tr>
 <tr data-day="0"><td>Sunday</td><td>8:00 am – 1:00 pm</td></tr>
 </tbody></table>
-<div class="now"><span class="dot" data-open-dot></span><span data-open-text>Mon–Sat 7am–6pm · Sun 8am–1pm</span></div>'''
+<div class="now"><span class="dot" data-open-dot></span><span data-open-text>Mon–Sat 7am–5pm · Sun 8am–1pm</span></div>'''
 
 def ticker():
     items = "".join(f"<li>{html.escape(s[2])}</li>" for s in SERVICES)

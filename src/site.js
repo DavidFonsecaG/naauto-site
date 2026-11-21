@@ -13,7 +13,7 @@
   }
 
   // Open / closed, in Chicago time. [open, close] in minutes after midnight, Sunday first.
-  var HOURS = [[480, 780], [420, 1080], [420, 1080], [420, 1080], [420, 1080], [420, 1080], [420, 1080]];
+  var HOURS = [[480, 780], [420, 1020], [420, 1020], [420, 1020], [420, 1020], [420, 1020], [420, 1020]];
   var DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   function fmt(m) { var h = Math.floor(m / 60), mm = m % 60, ap = h >= 12 ? "pm" : "am"; h = h % 12 || 12; return h + (mm ? ":" + String(mm).padStart(2, "0") : "") + ap; }
   try {
