@@ -1,10 +1,12 @@
-"""Builds the N&A Auto Repairs static pages from shared partials.
+"""Builds the N&A Auto Repair & Towing Service static pages from shared partials.
 
 Run:  python3 build.py   (writes ../dist/)
 index.html is written without <!doctype>/<head> wrappers for the Artifact preview;
 pass --standalone to wrap it like the other pages for real hosting.
 """
 import html, os, sys
+
+RATING = "4.8"  # Google star rating shown across the site; update it when the Google listing changes
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "dist")
@@ -16,10 +18,8 @@ TEL = "tel:+18478596191"
 MAPS = "https://www.google.com/maps/search/?api=1&amp;query=N%26A+Auto+Repairs+1701+W+Howard+St+Evanston+IL"
 INSTA = "https://www.instagram.com/na_auto_repairs/"
 
-FONTS = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900"
-         "&family=Barlow:wght@400;500;600&family=Big+Shoulders+Display:wght@600;800;900"
-         "&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500"
-         "&family=Public+Sans:wght@400;500;600;700&display=swap")
+FONTS = ("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900"
+         "&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap")
 
 PHONE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>'
 
@@ -161,7 +161,6 @@ def header(active):
   <div class="wrap">
     <a class="brand brand-logo" href="index.html" aria-label="N&amp;A Auto Repair &amp; Towing Service, home">
       <span class="logo-set logo-blue"><img class="logo-light" src="img/logo/logo-light.svg" alt="N&amp;A Auto Repair &amp; Towing Service" width="763" height="164"><img class="logo-dark" src="img/logo/logo-dark.svg" alt="" width="763" height="164" aria-hidden="true"></span>
-      <span class="logo-set logo-red"><img class="logo-light" src="img/logo/logo-red-light.svg" alt="N&amp;A Auto Repair &amp; Towing Service" width="763" height="164"><img class="logo-dark" src="img/logo/logo-red-dark.svg" alt="" width="763" height="164" aria-hidden="true"></span>
     </a>
     <nav class="primary" aria-label="Main">
       {links}
@@ -184,7 +183,7 @@ def cta(title="Car acting up? Call the shop."):
 FOOTER = f'''<footer class="site">
   <div class="wrap cols">
     <div>
-      <div class="big-name">N&amp;A Auto Repairs</div>
+      <div class="big-name">N&amp;A Auto Repair &amp; Towing Service</div>
       <p>Family-owned auto repair on Howard Street, Evanston.</p>
     </div>
     <div><h2 class="ftitle">Visit</h2><ul><li>1701 W Howard St</li><li>Evanston, IL 60202</li><li><a href="{MAPS}" target="_blank" rel="noopener">Directions</a></li></ul></div>
@@ -197,23 +196,15 @@ FOOTER = f'''<footer class="site">
   <a class="btn btn-signal" href="{TEL}">Call now</a>
   <a class="btn btn-ghost" href="{MAPS}" target="_blank" rel="noopener">Directions</a>
 </div>
-<div class="switcher" role="group" aria-label="Design direction (preview only)">
-  <span class="lbl">Design</span>
-  <button type="button" data-style="d" aria-pressed="true">Shop Blue</button>
-  <button type="button" data-style="a" aria-pressed="false">Shop Ticket</button>
-  <button type="button" data-style="b" aria-pressed="false">Showroom</button>
-  <button type="button" data-style="c" aria-pressed="false">Blueprint</button>
-</div>
 <script src="site.js"></script>'''
 
-EARLY = '<script>(function(){var s="d";try{s=localStorage.getItem("na-style-v3")||"d"}catch(e){}var h=location.hash.match(/^#style-([abcd])$/);if(h)s=h[1];document.documentElement.setAttribute("data-style",s)})()</script>'
 
 # --staging builds the review copy on David's subdomain: hidden from search engines so it never competes with the real domain.
 STAGING = "--staging" in sys.argv
 SITE = "https://naauto.davidfonseca.io" if STAGING else "https://naautorepair.com"
 SCHEMA = {
     "@context": "https://schema.org", "@type": "AutoRepair", "@id": SITE + "/#shop",
-    "name": "N&A Auto Repairs", "url": SITE + "/", "telephone": "+1-847-859-6191",
+    "name": "N&A Auto Repair & Towing Service", "alternateName": "N&A Auto Repairs", "url": SITE + "/", "telephone": "+1-847-859-6191",
     "image": SITE + "/img/storefront.webp",
     "logo": SITE + "/android-chrome-512x512.png",
     "address": {"@type": "PostalAddress", "streetAddress": "1701 W Howard St", "addressLocality": "Evanston",
@@ -238,7 +229,7 @@ def head(title, desc, name="index.html"):
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#1F4FA3">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="N&amp;A Auto Repairs">
+<meta property="og:site_name" content="N&amp;A Auto Repair &amp; Towing Service">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{SITE}{path}">
@@ -255,7 +246,6 @@ def head(title, desc, name="index.html"):
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="{html.escape(desc)}">
 {seo}
-{EARLY}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
@@ -282,7 +272,7 @@ def reviews_band(link=True):
     more = f'<a class="btn btn-ghost more" href="{MAPS}" target="_blank" rel="noopener">Read all reviews on Google</a>' if link else ""
     return f'''<section class="section reviews" id="reviews"><div class="wrap">
   <div class="section-head"><span class="eyebrow">What customers say</span><h2>Evanston's most reliable auto shop</h2></div>
-  <div class="score"><span class="big" data-count="4.8">4.8</span><span class="stars" aria-label="4.8 out of 5 stars">★★★★★</span><span class="src">AVERAGE RATING ON GOOGLE</span></div>
+  <div class="score"><span class="big" data-count="{RATING}">{RATING}</span><span class="stars" aria-label="{RATING} out of 5 stars">★★★★★</span><span class="src">AVERAGE RATING ON GOOGLE</span></div>
   <div class="quotes">{q}</div>
   {more}
 </div></section>'''
@@ -329,7 +319,7 @@ def build():
       <a class="btn btn-ghost" href="services.html">See all services</a>
     </div>
     <div class="facts rise d5">
-      <div><b>4.8★</b><span>Google rating</span></div>
+      <div><b>{RATING}★</b><span>Google rating</span></div>
       <div><b>7 days</b><span>Open every day of the week</span></div>
       <div><b>15</b><span>Services under one roof</span></div>
     </div>
@@ -376,7 +366,7 @@ def build():
 </div></section>
 </main>
 {cta()}'''
-    page("index.html", "N&amp;A Auto Repairs | Auto Repair Shop in Evanston, IL" if STANDALONE else "N&amp;A Auto Repairs", "Family-owned auto repair shop at 1701 W Howard St, Evanston, IL. Brakes, engine, A/C, oil changes and more. Open 7 days. Call (847) 859-6191.", home, STANDALONE)
+    page("index.html", "N&amp;A Auto Repair &amp; Towing Service | Evanston, IL" if STANDALONE else "N&amp;A Auto Repair &amp; Towing Service", "Family-owned auto repair shop at 1701 W Howard St, Evanston, IL. Brakes, engine, A/C, oil changes and more. Open 7 days. Call (847) 859-6191.", home, STANDALONE)
 
     # Services
     counts = {c: sum(1 for s in SERVICES if s[1] == c) for c in CATS}
@@ -409,7 +399,7 @@ def build():
 </div></section>
 </main>
 {cta("Don't see your problem listed? Call and ask.")}'''
-    page("services.html", "Auto Repair Services in Evanston, IL | N&amp;A Auto Repairs", "Brake repair, engine and transmission work, A/C, electrical, tires, alignment, oil changes, glass, body work and detailing in Evanston, IL.", services, True)
+    page("services.html", "Auto Repair Services in Evanston, IL | N&amp;A Auto Repair", "Brake repair, engine and transmission work, A/C, electrical, tires, alignment, oil changes, glass, body work and detailing in Evanston, IL.", services, True)
 
     # About
     gallery = strip_gallery("street-view", "brothers-oil-change", "shop-bay")
@@ -418,7 +408,7 @@ def build():
 <section class="page-hero"><div class="wrap">
   <div class="crumbs rise"><a href="index.html">Home</a> / About</div>
   <h1 class="rise d1">Two brothers, one shop</h1>
-  <p class="rise d2">N&amp;A Auto Repairs is a family business on Howard Street, right where Evanston meets Chicago.</p>
+  <p class="rise d2">N&amp;A Auto Repair &amp; Towing Service is a family business on Howard Street, right where Evanston meets Chicago.</p>
 </div></section>
 <section class="section"><div class="wrap story">
   <div class="prose reveal">
@@ -434,7 +424,7 @@ def build():
     <ul class="timeline">
       <li class="reveal"><span class="when">2020</span><b>N&amp;A Auto Repairs Inc. opens on Howard Street</b></li>
       <li class="reveal"><span class="when">Today</span><b>15 services, open 7 days a week</b></li>
-      <li class="reveal"><span class="when">Google</span><b>4.8★ average rating from local drivers</b></li>
+      <li class="reveal"><span class="when">Google</span><b>{RATING}★ average rating from local drivers</b></li>
     </ul>
   </div>
   <div>
@@ -449,7 +439,7 @@ def build():
 </div></section>
 </main>
 {cta()}'''
-    page("about.html", "About Us | N&amp;A Auto Repairs, Evanston IL", "N&A Auto Repairs is a family-owned shop run by brothers Nabeel and Aqeel Attiya on Howard Street in Evanston since 2020.", about, True)
+    page("about.html", "About Us | N&amp;A Auto Repair &amp; Towing Service, Evanston IL", "N&A Auto Repair & Towing Service is a family-owned shop run by brothers Nabeel and Aqeel Attiya on Howard Street in Evanston since 2020.", about, True)
 
     # Contact
     contact = header("contact.html") + f'''
@@ -501,13 +491,13 @@ def build():
 </div></section>
 </main>
 {cta("See you on Howard Street.")}'''
-    page("contact.html", "Hours, Directions & Contact | N&amp;A Auto Repairs Evanston", "Hours, phone and directions for N&A Auto Repairs, 1701 W Howard St, Evanston, IL 60202. Open 7 days. Request an appointment online.", contact, True)
+    page("contact.html", "Hours, Directions & Contact | N&amp;A Auto Repair, Evanston IL", "Hours, phone and directions for N&A Auto Repair & Towing Service, 1701 W Howard St, Evanston, IL 60202. Open 7 days. Request an appointment online.", contact, True)
 
 MAP_EMBED = "https://www.google.com/maps?q=N%26A+Auto+Repairs,+1701+W+Howard+St,+Evanston,+IL+60202&amp;output=embed"
 
 def map_card():
     if EMBED_MAP:
-        return (f'<div class="card map-live reveal"><iframe title="Map showing N&amp;A Auto Repairs at 1701 W Howard St, Evanston" '
+        return (f'<div class="card map-live reveal"><iframe title="Map showing N&amp;A Auto Repair &amp; Towing Service at 1701 W Howard St, Evanston" '
                 f'src="{MAP_EMBED}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>')
     return f'''<div class="card map-card reveal">
   <div class="map-top"><div class="eyebrow">Find us</div><div class="contact-row"><div class="val">1701 W Howard St<br>Evanston, IL 60202</div></div></div>

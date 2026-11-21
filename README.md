@@ -1,6 +1,6 @@
-# N&A Auto Repairs website
+# N&A Auto Repair & Towing Service website
 
-Static site for N&A Auto Repairs, 1701 W Howard St, Evanston, IL. The pages are generated from `src/` by a small Python script (standard library only, no dependencies).
+Static site for N&A Auto Repair & Towing Service, 1701 W Howard St, Evanston, IL. The pages are generated from `src/` by a small Python script (standard library only, no dependencies).
 
 ## Build
 
@@ -11,13 +11,13 @@ python3 src/build.py --standalone --staging  # staging build: noindex, robots Di
 
 `--standalone` writes full HTML pages and embeds the live Google map. Without it, `index.html` is built for the Claude Artifact preview.
 
-## Cloudflare
+## Cloudflare Pages
 
-Deployed as a Cloudflare Worker with static assets (`wrangler.jsonc` points it at `dist/`).
+Connected to this repo; every push to `main` deploys, and other branches get a preview URL.
 
 - Build command: `python3 src/build.py --standalone --staging`
-- Deploy command: `npx wrangler deploy`
-- Custom domain: `naauto.davidfonseca.io` (staging)
+- Build output directory: `dist`
+- Custom domain: `naauto.davidfonseca.io` (staging, hidden from search engines)
 
 Drop `--staging` once the site moves to the real domain.
 

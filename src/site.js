@@ -1,23 +1,6 @@
 (function () {
   var root = document.documentElement;
 
-  // Preview-only design switcher. Remembers the choice per browser so it carries across pages.
-  var STYLES = { d: "Shop Blue", a: "Shop Ticket", b: "Showroom", c: "Blueprint" };
-  function setStyle(s, remember) {
-    if (!STYLES[s]) s = "d";
-    root.setAttribute("data-style", s);
-    document.querySelectorAll(".switcher button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.style === s)); });
-    if (remember) { try { localStorage.setItem("na-style-v3", s); } catch (e) {} }
-  }
-  var start = "d";
-  try { start = localStorage.getItem("na-style-v3") || "d"; } catch (e) {}
-  var hash = (location.hash || "").replace("#", "");
-  if (/^style-[abcd]$/.test(hash)) start = hash.slice(6);
-  setStyle(start, false);
-  document.querySelectorAll(".switcher button").forEach(function (b) {
-    b.addEventListener("click", function () { setStyle(b.dataset.style, true); });
-  });
-
   // Mobile menu
   var menuBtn = document.getElementById("menu-btn"), menu = document.getElementById("mobile-nav");
   if (menuBtn && menu) {
